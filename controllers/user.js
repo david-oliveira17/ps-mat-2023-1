@@ -23,5 +23,32 @@ controller.create = async (req, res) => {
     }
 }
 
+controller.retrieve = async (req, res) => {
+    try {
+        const data = await User.findAll()
+        //HTTP 200: OK (implícito)
+        res.send(data)
+    } 
+    catch (error) {
+        console.error(error)
+    }
+}
+
+controller.retrieveOne = async (req, res) => {
+    try {
+        const data = await User.findByPk(req.params.id)
+
+        //HTTP 200: OK (implícito)
+        if(data) res.send(data)
+
+        //HTTP 404: Not Found
+        else res.status(404).end()
+
+    } 
+    catch (error) {
+        console.error(error)
+    }
+}
+
 
 module.exports = controller

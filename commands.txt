@@ -1,1 +1,3 @@
 npx sequelize-cli model:generate --name User --attributes id:integer,name:string,email:string,verified_email:boolean,is_admin:boolean,phone:string,password:string
+
+npx sequelize-cli db:migrate:undo
