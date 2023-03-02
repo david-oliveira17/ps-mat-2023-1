@@ -1,3 +1,11 @@
+//Comandos para gerar model + migration
 npx sequelize-cli model:generate --name User --attributes id:integer,name:string,email:string,verified_email:boolean,is_admin:boolean,phone:string,password:string
 
+npx sequelize-cli model:generate --name Channel --attributes id:integer,description:string,commission_fee:decimal
+
+
+//Comando para criar a tabela la no banco de dados do clever cloud
+npx sequelize-cli db:migrate
+
+//Comando para apagar a tabela la no banco de dados do clever cloud
 npx sequelize-cli db:migrate:undo
