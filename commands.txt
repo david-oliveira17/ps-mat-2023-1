@@ -9,3 +9,22 @@ npx sequelize-cli db:migrate
 
 //Comando para apagar a tabela la no banco de dados do clever cloud
 npx sequelize-cli db:migrate:undo
+
+npx sequelize-cli model:generate --name PaymentMethod --attributes description:string,operator_fee:decimal
+
+1. Crie a migration para a tabela (nome com Iniciais maiusculas e sem underline)
+2. Ajustar a migration
+     * nome da tabela em snake-case, no up() e no down()
+     * ajustar os tipos de dados, de acordo com o diagrama  DECIMAL(18,2)
+
+3. Executar a migration: npx sequelize-cli db:migrate
+4. Copiar as definições de campos da migration (exceto createdAt e updatedAt) e colar a definição dos campos no model
+5. Subistitua todos os termos Sequelize por DataType (respeitando maiusculas e minusculas)
+6. Renomeie o arquivo do model para snake_case, se necessário
+8. Abaixo de ModelName, acrescente o TableName com o nome da tabela em snake_case
+9. Duplique um controller existente e o renomeie de forma identica ao model que lhe será correspondente
+10. No controller, renomeie o nome do model dentro dele (que está em PascalCase), respeitando maiúsculas e minusculas
+11. Duplique um route existente e o renomeie em snake_case no plural
+12. Renomeie o nome do controller no arquivo route
+13. No arquivo app.js, acrescente a rota, fazendo referência ao arquivo route correspondente
+14. Faça os testes no Thunder Client.
