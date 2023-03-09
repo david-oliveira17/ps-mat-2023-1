@@ -1,7 +1,7 @@
 //Comandos para gerar model + migration
-npx sequelize-cli model:generate --name User --attributes id:integer,name:string,email:string,verified_email:boolean,is_admin:boolean,phone:string,password:string
+npx sequelize-cli model:generate --name User --attributes name:string,email:string,verified_email:boolean,is_admin:boolean,phone:string,password:string
 
-npx sequelize-cli model:generate --name Channel --attributes id:integer,description:string,commission_fee:decimal
+npx sequelize-cli model:generate --name Channel --attributes description:string,commission_fee:decimal
 
 
 //Comando para criar a tabela la no banco de dados do clever cloud
@@ -12,19 +12,29 @@ npx sequelize-cli db:migrate:undo
 
 npx sequelize-cli model:generate --name PaymentMethod --attributes description:string,operator_fee:decimal
 
-1. Crie a migration para a tabela (nome com Iniciais maiusculas e sem underline)
+1. Crie a migration e o model para a tabela (nome com Iniciais maiusculas e sem underline)
+npx sequelize-cli model:generate --name Channel --attributes id:integer,description:string,commission_fee:decimal
+
 2. Ajustar a migration
-     * nome da tabela em snake-case, no up() e no down()
+     * nome da tabela em snake-case, no plural, no up() e no down()
      * ajustar os tipos de dados, de acordo com o diagrama  DECIMAL(18,2)
+     * acrescente "allowNull: false", se necessário
 
 3. Executar a migration: npx sequelize-cli db:migrate
-4. Copiar as definições de campos da migration (exceto createdAt e updatedAt) e colar a definição dos campos no model
-5. Subistitua todos os termos Sequelize por DataType (respeitando maiusculas e minusculas)
-6. Renomeie o arquivo do model para snake_case, se necessário
-8. Abaixo de ModelName, acrescente o TableName com o nome da tabela em snake_case
+4. Copiar as definições de campos da migration (exceto createdAt e updatedAt) e colar a definição dos campos no model,
+     substituindo as definições já existentes
+5. Substitua todos os termos Sequelize por DataTypes, usando Ctrl + H, (respeitando maiúsculas e minúsculas)
+6. Renomeie o arquivo do model para snake_case, se o nome for composto por mais de uma palavra
+8. Abaixo da propriedade  modelName, adicione a propriedade  tableName com o nome da tabela entre aspas e em snake_case, plural
 9. Duplique um controller existente e o renomeie de forma identica ao model que lhe será correspondente
-10. No controller, renomeie o nome do model dentro dele (que está em PascalCase), respeitando maiúsculas e minusculas
-11. Duplique um route existente e o renomeie em snake_case no plural
+10. No arquivo do controller, substitua (Ctrl+H) todas as ocorrências do nome do model (que está em  PascalCase)
+     para o nome do model atual, respeitando a distinção entre letras maiúsculas e minúsculas.
+11. Duplique um route existente e o renomeie com o nome do model correspondente em snake_case, no plural
 12. Renomeie o nome do controller no arquivo route
-13. No arquivo app.js, acrescente a rota, fazendo referência ao arquivo route correspondente
+13. No arquivo app.js, acrescente a rota correspondente. Observe que:
+     * Caso o nome do route seja composto por mais de uma palavra, a constante deve serdeclarada usando a convenção camelCase;
+     *A mesma constante declarada no passo anterior corresponde ao segundo parâmetroda função app.use().
 14. Faça os testes no Thunder Client.
+
+
+npx sequelize-cli model:generate --name Carrier --attributes name:string
