@@ -12,11 +12,14 @@ npx sequelize-cli db:migrate:undo
 
 npx sequelize-cli model:generate --name PaymentMethod --attributes description:string,operator_fee:decimal
 
+
+
+
 1. Crie a migration e o model para a tabela (nome com Iniciais maiusculas e sem underline)
 npx sequelize-cli model:generate --name Channel --attributes id:integer,description:string,commission_fee:decimal
 
 2. Ajustar a migration
-     * nome da tabela em snake-case, no plural, no up() e no down()
+     * nome da tabela em snake_case, no plural, no up() e no down()
      * ajustar os tipos de dados, de acordo com o diagrama  DECIMAL(18,2)
      * acrescente "allowNull: false", se necessário
 
@@ -25,7 +28,7 @@ npx sequelize-cli model:generate --name Channel --attributes id:integer,descript
      substituindo as definições já existentes
 5. Substitua todos os termos Sequelize por DataTypes, usando Ctrl + H, (respeitando maiúsculas e minúsculas)
 6. Renomeie o arquivo do model para snake_case, se o nome for composto por mais de uma palavra
-8. Abaixo da propriedade  modelName, adicione a propriedade  tableName com o nome da tabela entre aspas e em snake_case, plural
+8. Abaixo da propriedade modelName, adicione a propriedade  tableName com o nome da tabela entre aspas e em snake_case, plural
 9. Duplique um controller existente e o renomeie de forma identica ao model que lhe será correspondente
 10. No arquivo do controller, substitua (Ctrl+H) todas as ocorrências do nome do model (que está em  PascalCase)
      para o nome do model atual, respeitando a distinção entre letras maiúsculas e minúsculas.
@@ -36,5 +39,3 @@ npx sequelize-cli model:generate --name Channel --attributes id:integer,descript
      *A mesma constante declarada no passo anterior corresponde ao segundo parâmetroda função app.use().
 14. Faça os testes no Thunder Client.
 
-
-npx sequelize-cli model:generate --name Carrier --attributes name:string
