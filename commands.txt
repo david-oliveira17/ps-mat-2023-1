@@ -16,7 +16,7 @@ npx sequelize-cli model:generate --name PaymentMethod --attributes description:s
 
 
 1. Crie a migration e o model para a tabela (nome com Iniciais maiusculas e sem underline)
-npx sequelize-cli model:generate --name Channel --attributes id:integer,description:string,commission_fee:decimal
+npx sequelize-cli model:generate --name Tag --attributes id:integer,description:string,commission_fee:decimal
 
 2. Ajustar a migration
      * nome da tabela em snake_case, no plural, no up() e no down()
@@ -37,7 +37,7 @@ npx sequelize-cli model:generate --name Channel --attributes id:integer,descript
 13. No arquivo app.js, acrescente a rota correspondente. Observe que:
      * Caso o nome do route seja composto por mais de uma palavra, a constante deve serdeclarada usando a convenção camelCase;
      *A mesma constante declarada no passo anterior corresponde ao segundo parâmetroda função app.use().
-14. Faça os testes no Thunder Client.
+14. Npm start e faça os testes no Thunder Client.
 
 
 
