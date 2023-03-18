@@ -10,13 +10,11 @@ npx sequelize-cli db:migrate
 //Comando para apagar a tabela la no banco de dados do clever cloud
 npx sequelize-cli db:migrate:undo
 
-npx sequelize-cli model:generate --name PaymentMethod --attributes description:string,operator_fee:decimal
 
-
-
+npx sequelize-cli model:generate --name City --attributes name:string,state:char
 
 1. Crie a migration e o model para a tabela (nome com Iniciais maiusculas e sem underline)
-npx sequelize-cli model:generate --name Tag --attributes id:integer,description:string,commission_fee:decimal
+npx sequelize-cli model:generate --name CustomerTag --attributes description:string,commission_fee:decimal
 
 2. Ajustar a migration
      * nome da tabela em snake_case, no plural, no up() e no down()
@@ -26,16 +24,16 @@ npx sequelize-cli model:generate --name Tag --attributes id:integer,description:
 3. Executar a migration: npx sequelize-cli db:migrate
 4. Copiar as definições de campos da migration (exceto createdAt e updatedAt) e colar a definição dos campos no model,
      substituindo as definições já existentes
-5. Substitua todos os termos Sequelize por DataTypes, usando Ctrl + H, (respeitando maiúsculas e minúsculas)
+5. --NO MODEL-- Substitua todos os termos Sequelize por DataTypes, usando Ctrl + H, (respeitando maiúsculas e minúsculas)
 6. Renomeie o arquivo do model para snake_case, se o nome for composto por mais de uma palavra
 8. Abaixo da propriedade modelName, adicione a propriedade  tableName com o nome da tabela entre aspas e em snake_case, plural
 9. Duplique um controller existente e o renomeie de forma identica ao model que lhe será correspondente
-10. No arquivo do controller, substitua (Ctrl+H) todas as ocorrências do nome do model (que está em  PascalCase)
+10. No arquivo do controller, substitua (Ctrl+H) todas as ocorrências do nome do model (que está em PascalCase)
      para o nome do model atual, respeitando a distinção entre letras maiúsculas e minúsculas.
 11. Duplique um route existente e o renomeie com o nome do model correspondente em snake_case, no plural
 12. Renomeie o nome do controller no arquivo route
 13. No arquivo app.js, acrescente a rota correspondente. Observe que:
-     * Caso o nome do route seja composto por mais de uma palavra, a constante deve serdeclarada usando a convenção camelCase;
+     * Caso o nome do route seja composto por mais de uma palavra, a constante deve serdeclarada usando a convenção camelCase, no plural;
      *A mesma constante declarada no passo anterior corresponde ao segundo parâmetroda função app.use().
 14. Npm start e faça os testes no Thunder Client.
 
@@ -111,3 +109,4 @@ No controller.retrieve
 const data = await Customer.findAll(
      include: {model: City, as: 'city'}
 )
+
