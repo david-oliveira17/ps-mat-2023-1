@@ -65,6 +65,9 @@ app.use('/order_rel_statuses', orderRelStatuses)
 const cities = require('./routes/cities')
 app.use('/cities', cities)
 
+const orders = require('./routes/orders')
+app.use('/orders', orders)
+
 
 
 module.exports = app;

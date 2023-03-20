@@ -15,6 +15,7 @@ npx sequelize-cli model:generate --name City --attributes name:string,state:char
 
 1. Crie a migration e o model para a tabela (nome com Iniciais maiusculas e sem underline)
 npx sequelize-cli model:generate --name CustomerTag --attributes description:string,commission_fee:decimal
+npx sequelize-cli model:generate --name Order --attributes external_code:string,theme:string,description:text,remarks:text,pic_url:string,custom_name:string,custom_age:tinyint,order_date:date,event_date:date,atwork_date:date,shipment_date:date,total_amount:decimal,customer_id:integer,channel_id:integer,carrier_id:integer,shipment_priority_id:integer,payment_method_id:integer
 
 2. Ajustar a migration
      * nome da tabela em snake_case, no plural, no up() e no down()
@@ -110,3 +111,23 @@ const data = await Customer.findAll(
      include: {model: City, as: 'city'}
 )
 
+
+{
+    "external_code": "Franca",
+    "theme": "hghgh",
+    "description": "jfjfjf",
+    "remarks": "ghghgh",
+    "pic_url": "hghhh",
+    "custom_name": "Franca",
+    "custom_age": "44",
+    "order_date": "",
+    "event_date": "",
+    "atwork_date": "",
+    "shipment_date": "",
+    "total_amount": "1.55",
+    "customer_id": "1",
+    "channel_id": "1",
+    "carrier_id": "1",
+    "shipment_priority_id": "1",
+    "payment_method_id": "1"
+}
