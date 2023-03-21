@@ -3,13 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
-
     //Cria a chave estrangeira da tabela customers para a tabela cities
     await queryInterface.addConstraint('customers', {
      fields: ['city_id'],   //Campo da tabela de origem
@@ -25,13 +18,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-
     //Reverte as alterações feitas no up()
     await queryInterface.removeConstraint('customers', 'customers_cities_fk')
   }

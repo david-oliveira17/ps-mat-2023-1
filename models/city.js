@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Customer, {
+        foreignKey: 'city_id',  //Campo da tabela estrangeira
+        sourceKey: 'id',        //Campo da tabela local
+        as: 'customers'         //Nome do campo de associação(plural)
+      })
     }
   }
   City.init({
