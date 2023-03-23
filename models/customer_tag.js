@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: 'id',               //Nome do campo na tabela de destino
         as: 'customer'                 //Nome do atributo para exibição
       })
+
+      this.belongsTo(models.Tag, {
+        foreignKey: 'tag_id',     //Nome do campo na tabela de origem
+        targetKey: 'id',          //Nome do campo na tabela de destino
+        as: 'tag'                 //Nome do atributo para exibição
+      })
     }
   }
   CustomerTag.init({

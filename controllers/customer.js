@@ -1,5 +1,5 @@
 //importar o model correspondente ao controller
-const { Customer, City, CustomerTag } = require('../models')
+const { Customer, City, Tag } = require('../models')
 
 const controller = {}  //objeto vazio
 
@@ -28,7 +28,7 @@ controller.retrieve = async (req, res) => {
         const data = await Customer.findAll({
             include: [
                 { model: City, as: 'city' },
-                { model: CustomerTag, as: 'tags' }
+                { model: Tag, as: 'tags' }
 
             ]
     })

@@ -45,22 +45,10 @@ npx sequelize-cli migration:generate --name alter-table-users
 
 
 ------------------------------------------------------------------
-Após criação das tabelas
+Criar chaves estrangeiras
 npx sequelize-cli migration:generate --name alter-table-customers
 
-'use strict';
-
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
-
-    //Cria a chave estrangeira da tabela customers para a tabela cities
+     -----Acrescente no up()
     await queryInterface.addConstraint('customers', {
      fields: ['city_id'],   //Campo da tabela de origem
      type: 'foreign key'
@@ -72,33 +60,32 @@ module.exports = {
      onDelete: 'RESTRICT',   //Não deixa apagar uma city em uso na customer
      onUpdate: 'CASCADE'     //Atualiza city_id em customer se id em city mudar
     })
-  },
 
-  async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
 
-    //Reverte as alterações feitas no up()
+
+    -----Acrescente no down()
     await queryInterface.removeConstraint('customers', 'customers_cities_fk')
-  }
-};
+  
 
 
 ---------Execute npx sequelize-cli db:migrate
----------No Thunder Client, crie as cidades Franca e Claraval na tabela cities
----------Crie um cliente na tabela customers
 
----------Va no model do customers e adicione no associate()
+
+---------Va no model da tabela e adicione no associate()
 
 this.belongsTo(models.City, {
      foreignKey: 'city_id',     //Nome do campo na tabela de origem
      targetKey: 'id',           //Nome do campo na tabela de destino
      as: 'city'                 //Nome do atributo para exibição
 })
+
+
+this.belongsToMany(models.Tag, {
+        through: 'customer_tags',    //Tabela intermediaria
+        foreignKey: 'customer_id',   //Chave estrangeira da tabela intermediária
+        otherKey: 'tag_id',          //Outra chave da tabela intermediaria
+        as: 'tags'                   //Nome do campo de associação (plural)
+      })
 
 -----------------------------------------------------------------
 
@@ -107,9 +94,13 @@ Alteração no controller do customer
 acrescente City no nome da const
 
 No controller.retrieve
-const data = await Customer.findAll(
+const data = await Customer.findAll({
      include: {model: City, as: 'city'}
-)
+})
+     
+
+
+
 
 
 {
