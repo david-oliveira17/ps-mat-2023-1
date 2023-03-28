@@ -10,18 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      
       this.belongsTo(models.City, {
         foreignKey: 'city_id',     //Nome do campo na tabela de origem
         targetKey: 'id',           //Nome do campo na tabela de destino
         as: 'city'                 //Nome do atributo para exibição
       })
 
-      // this.hasMany(models.CustomerTag, {
-      //   foreignKey: 'customer_id',  //Campo da tabela estrangeira
-      //   sourceKey: 'id',        //Campo da tabela local
-      //   as: 'tags'         //Nome do campo de associação (plural)
-      // })
 
       this.belongsToMany(models.Tag, {
         through: 'customer_tags',    //Tabela intermediaria
@@ -29,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: 'tag_id',          //Outra chave da tabela intermediaria
         as: 'tags'                   //Nome do campo de associação (plural)
       })
+
 
     }
   }

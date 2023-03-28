@@ -51,7 +51,7 @@ npx sequelize-cli migration:generate --name alter-table-customers
      -----Acrescente no up()
     await queryInterface.addConstraint('customers', {
      fields: ['city_id'],   //Campo da tabela de origem
-     type: 'foreign key'
+     type: 'foreign key',
      name: 'customers_cities_fk',  //Nome da chave estrangeira(deve ser unico no BD)
      references: {
           table: 'cities',  //Tabela estrangeira
@@ -68,7 +68,7 @@ npx sequelize-cli migration:generate --name alter-table-customers
   
 
 
----------Execute npx sequelize-cli db:migrate
+---------Execute ---- npx sequelize-cli db:migrate
 
 
 ---------Va no model da tabela e adicione no associate()
