@@ -46,9 +46,9 @@ npx sequelize-cli migration:generate --name alter-table-users
 
 ------------------------------------------------------------------
 Criar chaves estrangeiras
-npx sequelize-cli migration:generate --name alter-table-customers
+1 - Execute -----npx sequelize-cli migration:generate --name alter-table-customers
 
-     -----Acrescente no up()
+2 - Acrescente no up()
     await queryInterface.addConstraint('customers', {
      fields: ['city_id'],   //Campo da tabela de origem
      type: 'foreign key',
@@ -68,16 +68,25 @@ npx sequelize-cli migration:generate --name alter-table-customers
   
 
 
----------Execute ---- npx sequelize-cli db:migrate
+3 - Execute ---- npx sequelize-cli db:migrate
 
 
----------Va no model da tabela e adicione no associate()
+4 - Va nos models das tabelas e adicione no associate()
 
 this.belongsTo(models.City, {
      foreignKey: 'city_id',     //Nome do campo na tabela de origem
      targetKey: 'id',           //Nome do campo na tabela de destino
      as: 'city'                 //Nome do atributo para exibição
 })
+
+
+
+this.hasMany(models.Customer, {
+        foreignKey: 'city_id',  //Campo da tabela estrangeira
+        sourceKey: 'id',        //Campo da tabela local
+        as: 'customers'         //Nome do campo de associação(plural)
+      })
+
 
 
 this.belongsToMany(models.Tag, {
@@ -89,7 +98,7 @@ this.belongsToMany(models.Tag, {
 
 -----------------------------------------------------------------
 
-Alteração no controller do customer
+5 - Alteração no controller da tabela que esta sendo criada a FK
 
 acrescente City no nome da const
 
@@ -100,7 +109,7 @@ const data = await Customer.findAll({
      
 
 
-
+------------------------------------------------------------------------------------------------------
 
 
 {

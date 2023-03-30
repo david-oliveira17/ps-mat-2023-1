@@ -18,6 +18,36 @@ module.exports = (sequelize, DataTypes) => {
         as: 'orders'                   //Nome do campo de associação (plural)
       })
 
+      this.belongsTo(models.Channel, {
+        foreignKey: 'channel_id',     //Nome do campo na tabela de origem
+        targetKey: 'id',           //Nome do campo na tabela de destino
+        as: 'channel'                 //Nome do atributo para exibição
+      })
+
+      this.belongsTo(models.Carrier, {
+        foreignKey: 'carrier_id',     //Nome do campo na tabela de origem
+        targetKey: 'id',           //Nome do campo na tabela de destino
+        as: 'carrier'                 //Nome do atributo para exibição
+      })
+
+      this.belongsTo(models.ShipmentPriority, {
+        foreignKey: 'shipment_priority_id',     //Nome do campo na tabela de origem
+        targetKey: 'id',           //Nome do campo na tabela de destino
+        as: 'shipment_priority'                 //Nome do atributo para exibição
+      })
+
+      this.belongsTo(models.PaymentMethod, {
+        foreignKey: 'payment_method_id',     //Nome do campo na tabela de origem
+        targetKey: 'id',           //Nome do campo na tabela de destino
+        as: 'payment_method'                 //Nome do atributo para exibição
+      })
+
+      this.belongsTo(models.Customer, {
+        foreignKey: 'customer_id',     //Nome do campo na tabela de origem
+        targetKey: 'id',           //Nome do campo na tabela de destino
+        as: 'customer'                 //Nome do atributo para exibição
+      })
+
     }
   }
   Order.init({
