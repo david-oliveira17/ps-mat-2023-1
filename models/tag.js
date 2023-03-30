@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'order_tags',    //Tabela intermediaria
         foreignKey: 'tag_id',   //Chave estrangeira da tabela intermediária
         otherKey: 'order_id',          //Outra chave da tabela intermediaria
-        as: 'tags'                   //Nome do campo de associação (plural)
+        as: 'orders'                   //Nome do campo de associação (plural)
       })
     }
   }

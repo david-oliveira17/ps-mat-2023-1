@@ -10,7 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+
+      this.hasMany(models.OrderRelStatus, {
+        foreignKey: 'user_id',  //Campo da tabela estrangeira
+        sourceKey: 'id',        //Campo da tabela local
+        as: 'order_rel_statuses'         //Nome do campo de associação(plural)
+      })
     }
   }
   User.init({

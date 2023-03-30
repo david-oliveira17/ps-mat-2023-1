@@ -48,6 +48,13 @@ module.exports = (sequelize, DataTypes) => {
         as: 'customer'                 //Nome do atributo para exibição
       })
 
+      this.belongsToMany(models.OrderStatus, {
+        through: 'order_rel_statuses',    //Tabela intermediaria
+        foreignKey: 'order_id',   //Chave estrangeira da tabela intermediária
+        otherKey: 'order_status_id',          //Outra chave da tabela intermediaria
+        as: 'order_statuses'                   //Nome do campo de associação (plural)
+      })
+
     }
   }
   Order.init({
