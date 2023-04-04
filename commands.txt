@@ -111,6 +111,44 @@ const data = await Customer.findAll({
 
 ------------------------------------------------------------------------------------------------------
 
+SEGURANÇA DA API
+
+1 - Não retornar password na listagem de users
+     No model do user, acrescentar após o table name:
+          defaultScope:{
+      attributes:{
+        exclude: ['password']
+      }
+    },
+    //Inclui o campo "password" (necessário no login)
+    withPassword: {
+      attributes: {
+        include: ['password']
+      }
+    }
+
+    
+
+
+2 - Criptografar password ao criar e atualizar users
+
+      ------Executar npm i bcrypt jsonwebtoken
+     ------------Executar  npm audit fix --force
+     ------------Adicionar no controller do user const bcrypt = require('bcrypt')
+     -----------Adicionar no controller do user dentro de try:
+      req.body.password = await bcrypt.hash(req.body.password, 12)
+      ----------Adicione no controller.update do user, dentro do try:
+      if(req.body.password){
+            req.body.password = await bcrypt.hash(req.body.password, 12)
+        }
+3 - Implementar logincom JWT + cookie
+     No controller do user adicione 
+          
+          
+
+4 - Implementar rotas seguras
+
+
 
 {
     "external_code": "Franca",
