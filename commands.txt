@@ -114,7 +114,9 @@ const data = await Customer.findAll({
 SEGURANÇA DA API
 
 1 - Não retornar password na listagem de users
-     No model do user, acrescentar após o table name:
+
+     ----------No model do user, acrescentar após o table name:
+
           defaultScope:{
       attributes:{
         exclude: ['password']
@@ -133,20 +135,90 @@ SEGURANÇA DA API
 2 - Criptografar password ao criar e atualizar users
 
       ------Executar npm i bcrypt jsonwebtoken
-     ------------Executar  npm audit fix --force
-     ------------Adicionar no controller do user const bcrypt = require('bcrypt')
-     -----------Adicionar no controller do user dentro de try:
+     -------Executar npm audit fix --force
+
+     ------------Adicionar no controller do user 
+     
+     const bcrypt = require('bcrypt')
+     const jwt = require('jsonwebtoken')
+
+     -----------Adicionar no controller.create do user dentro de try:
+
       req.body.password = await bcrypt.hash(req.body.password, 12)
+
       ----------Adicione no controller.update do user, dentro do try:
       if(req.body.password){
             req.body.password = await bcrypt.hash(req.body.password, 12)
         }
+
+
+
+
 3 - Implementar logincom JWT + cookie
-     No controller do user adicione 
+
+     ----------No controller do user adicione o controller.login:
+
+     controller.login = async (req, res) => {
+  try {
+    const user = await User.scope('withPassword').findOne({ where: { email: req.body.email } })
+
+    // Usuário não encontrado ~> HTTP 401: Unauthorized
+    if(!user) return res.status(401).end()
+
+    const pwMatches = await bcrypt.compare(req.body.password, user.password)
+
+    if(pwMatches) {
+      // A senha confere
+      const token = jwt.sign({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          verified_email: user.verified_email,
+          is_admin: user.is_admin,
+          phone: user.phone
+        },
+        process.env.TOKEN_SECRET,    // Chave para criptografar o token
+        { expiresIn: '24h' }         // Duração do token
+      )
+
+      // Retorna o token ~> HTTP 200: OK (implícito)
+      res.json({ auth: true, token })
+    }
+    else {
+      // Senha errada ~> HTTP 401: Unauthorized
+      res.status(401).end()
+    }
+  }
+  catch(error) {
+    console.error(error)
+  }
+}
           
-          
+----------Adicione no .env.example 
+
+     TOKEN_SECRET=
+
+----------Adicione no .env
+
+     TOKEN_SECRET=Batatinha1QuandoNasce2
+
+
+
 
 4 - Implementar rotas seguras
+
+-------Adicione no route do User
+
+router.post('/login', controller.login)
+
+
+
+
+
+
+
+
+
 
 
 

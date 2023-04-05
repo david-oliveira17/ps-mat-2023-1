@@ -58,7 +58,8 @@ controller.retrieveOne = async (req, res) => {
 
 controller.update = async (req,res) => {
     try {
-
+        // Se houver sido passado o campo "password",
+        // criptografa a senha
         if(req.body.password){
             req.body.password = await bcrypt.hash(req.body.password, 12)
         }

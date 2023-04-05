@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
     tableName: 'users',
+    // Esconde o campo "password" no retrieve e no retrieveOne
     defaultScope:{
       attributes:{
         exclude: ['password']
