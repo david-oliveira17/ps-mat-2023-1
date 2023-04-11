@@ -211,13 +211,29 @@ SEGURANÇA DA API
 
 router.post('/login', controller.login)
 
+---------------------------------------------------------------------------------
+
+
+criar novo projeto front-end 
+------Execute - npm create vite@latest front-end
+
+-------Execute npx create-react-app front-end
+
+Mude a porta pra rodar o front end em uma porta diferente do back end
+-------Va na pasta package.json do front end e acrescente PORT=4000 em scripts > start
+
+Criar rotas de front-end
+-------Execute npm i react-router-dom
+
+Criar a pasta pages
+Criar as páginas Home e Login
+No arquivo App.js crie as rotas Home e Login
 
 
 
 
 
-
-
+Criação do projeto front-end
 
 
 
