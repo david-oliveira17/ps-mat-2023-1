@@ -72,6 +72,12 @@ app.use('/cities', cities)
 const orders = require('./routes/orders')
 app.use('/orders', orders)
 
+const suplliers = require('./routes/suplliers')
+app.use('/suplliers', suplliers)
+
+const products = require('./routes/products')
+app.use('/products', products)
+
 
 
 module.exports = app;

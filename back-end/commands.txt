@@ -257,3 +257,6 @@ Criação do projeto front-end
     "shipment_priority_id": "1",
     "payment_method_id": "1"
 }
+
+
+npx sequelize-cli model:generate --name Products --attributes description:string,quantity:decimal,unit:enum,supllier:integer
