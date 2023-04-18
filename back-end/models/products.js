@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Suplliers, {
-        foreignKey: 'suplliers',     //Nome do campo na tabela de origem
+        foreignKey: 'supllier',     //Nome do campo na tabela de origem
         targetKey: 'id',           //Nome do campo na tabela de destino
         as: 'suplliers'                 //Nome do atributo para exibição
    })

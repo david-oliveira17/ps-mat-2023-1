@@ -2,6 +2,13 @@ const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
 
+    // Gambiarra
+
+    next()
+    return
+
+    /*
+
     const bypassRoutes = [
         {url: '/users/login', method: 'POST'}
     ]
@@ -37,6 +44,6 @@ module.exports = (req, res, next) => {
         next()
     })
 
-    
+    */
 
 }
