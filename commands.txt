@@ -1,0 +1,4 @@
+Iniciar Vite --------- npm run dev
+
+XMLHTTP Request -->   axios
+fetch --> ky
