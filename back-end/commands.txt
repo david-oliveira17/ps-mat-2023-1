@@ -232,8 +232,19 @@ Execute--------npm i react-router-dom
 
 
 
+----------------------------------------------------------------------------------
+
+CORS
+
+---------Execute  npm i cors
+
+Em app.js adicione abaixo do express():
+
+const cors = require('cors')
+app.use(cors())
 
 
+---------------------------------------------------------------------------------------
 {
     "external_code": "Franca",
     "theme": "hghgh",
