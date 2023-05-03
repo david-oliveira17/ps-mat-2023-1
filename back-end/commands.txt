@@ -50,12 +50,12 @@ Criar chaves estrangeiras
 
 2 - Acrescente no up()
     await queryInterface.addConstraint('customers', {
-     fields: ['city_id'],   //Campo da tabela de origem
+     fields: ['city_id'],   //Nome do campo que sera criado
      type: 'foreign key',
      name: 'customers_cities_fk',  //Nome da chave estrangeira(deve ser unico no BD)
      references: {
-          table: 'cities',  //Tabela estrangeira
-          field: 'id'       //Campo da tabela estrangeira
+          table: 'cities',  //Tabela que sera herdada a chave
+          field: 'id'       //Campo que sera usado da outra tabela
      },
      onDelete: 'RESTRICT',   //Não deixa apagar uma city em uso na customer
      onUpdate: 'CASCADE'     //Atualiza city_id em customer se id em city mudar
