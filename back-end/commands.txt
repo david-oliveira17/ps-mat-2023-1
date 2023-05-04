@@ -214,37 +214,8 @@ router.post('/login', controller.login)
 ---------------------------------------------------------------------------------
 
 
-criar novo projeto front-end 
-------Execute - npm create vite@latest front-end
-
-Execute -------cd front-end
-Execute -------npm install
-
-No package json coloque --host
 
 
-Execute -------npm run dev
-
-DE Crtr + c
-
-Execute--------npm i react-router-dom
-
-
-
-
-----------------------------------------------------------------------------------
-
-CORS
-
----------Execute  npm i cors
-
-Em app.js adicione abaixo do express():
-
-const cors = require('cors')
-app.use(cors())
-
-
----------------------------------------------------------------------------------------
 {
     "external_code": "Franca",
     "theme": "hghgh",
@@ -264,6 +235,9 @@ app.use(cors())
     "shipment_priority_id": "1",
     "payment_method_id": "1"
 }
+<<<<<<< HEAD
 
 
 npx sequelize-cli model:generate --name Products --attributes description:string,quantity:decimal,unit:enum,supllier:integer
+=======
+>>>>>>> 1e1c282 ((04/05)Rotina de exclusão)

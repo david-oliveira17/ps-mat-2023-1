@@ -1,0 +1,47 @@
+
+criar novo projeto front-end 
+------Execute - npm create vite@latest front-end
+
+Execute -------cd front-end
+Execute -------npm install
+
+No package json coloque --host
+
+
+Execute -------npm run dev
+
+DE Crtr + c
+
+Execute--------npm i react-router-dom
+
+--------------------------------------------------------------------------------
+
+CORS
+
+---------Execute  npm i cors
+
+Em app.js, no back-end, adicione abaixo do express():
+
+const cors = require('cors')
+app.use(cors())
+
+--------------------------------------------------------------------------------
+
+Iniciar Vite --------- npm run dev
+
+XMLHTTP Request -->   axios
+fetch --> ky
+
+
+
+{
+  "name": "Beltrano da Silva",
+  "email": "beltrano@empresa.com.br",
+  "verified_email": true,
+  "is_admin": false,
+  "phone": "9999-9999",
+  "password": "Abc1234"
+}
+
+instalar data grid
+---------Execute  npm i @mui/x-data-grid
