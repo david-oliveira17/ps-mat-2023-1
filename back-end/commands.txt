@@ -50,7 +50,7 @@ Criar chaves estrangeiras
 
 2 - Acrescente no up()
     await queryInterface.addConstraint('customers', {
-     fields: ['city_id'],   //Nome do campo que sera criado
+     fields: ['city_id'],   //Nome do campo desta tabela que sera atribuida a foreign key
      type: 'foreign key',
      name: 'customers_cities_fk',  //Nome da chave estrangeira(deve ser unico no BD)
      references: {
@@ -73,16 +73,16 @@ Criar chaves estrangeiras
 
 4 - Va nos models das tabelas e adicione no associate()
 
-this.belongsTo(models.City, {
-     foreignKey: 'city_id',     //Nome do campo na tabela de origem
-     targetKey: 'id',           //Nome do campo na tabela de destino
+this.belongsTo(models.City, {  //Nome da outra tabela
+     foreignKey: 'city_id',     //Nome do campo de associação nesta tabela
+     targetKey: 'id',           //Nome do campo de id da outra tabela
      as: 'city'                 //Nome do atributo para exibição
 })
 
 
 
-this.hasMany(models.Customer, {
-        foreignKey: 'city_id',  //Campo da tabela estrangeira
+this.hasMany(models.Customer, { //Nome da tabela associada
+        foreignKey: 'city_id',  //Campo que sera associado na outra tabela
         sourceKey: 'id',        //Campo da tabela local
         as: 'customers'         //Nome do campo de associação(plural)
       })
