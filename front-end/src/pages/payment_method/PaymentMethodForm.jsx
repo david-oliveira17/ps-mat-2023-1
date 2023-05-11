@@ -6,17 +6,28 @@ import Fab from '@mui/material/Fab'
 import myfetch from '../../utils/myfetch'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
+import Notification from '../../components/ui/Notification'
+import { useNavigate } from 'react-router-dom'
+import PaymentMethod from '../../models/PaymentMethod'
 
 export default function PaymentMethodForm() {
   const API_PATH = '/payment_methods'
 
+  const navigate = useNavigate()
+
   const [state, setState] = React.useState({
     paymentMethod: {}, // Objeto vazio
-    showWaiting: false
+    showWaiting: false,
+    notif: {
+      show: false,
+      severity: 'success',
+      message: ''
+    }
   })
   const {
     paymentMethod,
-    showWaiting
+    showWaiting,
+    notif
   } = state
 
   function handleFormFieldChange(event) {
@@ -35,17 +46,46 @@ export default function PaymentMethodForm() {
   async function sendData() {
     setState({...state, showWaiting: true})
     try {
+
+      //Chama a validação da biblioteca Joi
+      await PaymentMethod.validateAsync(paymentMethod)
+
       await myfetch.post(API_PATH, paymentMethod)
       // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
-      alert('Salvou!')
-      setState({...state, showWaiting: false})
+      setState({
+        ...state, 
+        showWaiting: false,
+        notif: {
+          severity: 'success',
+          show: true,
+          message: 'Novo item salvo com sucesso'
+        }
+      })
     }
     catch(error) {
       console.error(error)
-      // DAR FEEDBACK NEGATIVO
-      setState({...state, showWaiting: false})
+      setState({
+        ...state, 
+        showWaiting: false,
+        notif: {
+          severity: 'error',
+          show: true,
+          message: 'ERRO: ' + error.message
+        }
+      })
     }
   }
+
+  function handleNotifClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    
+    //Se o item foi salvo com sucesso, retorna a pagina de listagem
+    if(notif.severity === 'success') navigate("/payment_method")
+
+    setState({ ...state, notif: { ...notif, show: false } })
+  };
 
   return (
     <>
@@ -55,6 +95,14 @@ export default function PaymentMethodForm() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+
+      <Notification 
+        show={notif.show} 
+        severity={notif.severity} 
+        onClose={handleNotifClose}
+      >
+        {notif.message}
+      </Notification>
       
       <PageTitle title="Cadastrar novo método de pagamento" />
 

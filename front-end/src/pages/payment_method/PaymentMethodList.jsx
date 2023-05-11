@@ -9,8 +9,7 @@ import IconButton from '@mui/material/IconButton'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import ConfirmDialog from '../../components/ui/ConfirmDialog'
-import Snackbar from '@mui/material/Snackbar'
-import Alert from '@mui/material/Alert'
+import Notification from '../../components/ui/Notification'
 import Box  from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import{ Link } from 'react-router-dom'
@@ -24,7 +23,7 @@ export default function PaymentMethodList() {
     showWaiting: false,
     showDialog: false,
     deleteId: null,
-    snack: {
+    notif: {
       show: false,
       message: '',
       severity: 'success' // ou 'error'
@@ -35,7 +34,7 @@ export default function PaymentMethodList() {
     showWaiting,
     showDialog,
     deleteId,
-    snack
+    notif
   } = state
 
   async function fetchData() {
@@ -118,7 +117,7 @@ export default function PaymentMethodList() {
           ...state,
           showWaiting: false,   // esconde o backdrop
           showDialog: false,    // esconde o diálogo de confirmação
-          snack: {              // exibe a snackbar
+          notif: {              // exibe a snackbar
             show: true,
             message: 'Item excluído com sucesso',
             severity: 'success'
@@ -133,7 +132,7 @@ export default function PaymentMethodList() {
           ...state,
           showWaiting: false,   // esconde o backdrop
           showDialog: false,    // esconde o diálogo de confirmação
-          snack: {              // exibe a snackbar
+          notif: {              // exibe a snackbar
             show: true,
             message: 'ERRO: ' + error.message,
             severity: 'error'
@@ -147,11 +146,11 @@ export default function PaymentMethodList() {
     }
   }
   
-  function handleSnackClose(event, reason) {
+  function handleNotifClose(event, reason) {
     if (reason === 'clickaway') {
       return;
     }
-    setState({ ...state, snack: { show: false } })
+    setState({ ...state, notif: { show: false } })
   };
 
   return (
@@ -171,11 +170,13 @@ export default function PaymentMethodList() {
         Deseja realmente excluir este item?
       </ConfirmDialog>
 
-      <Snackbar open={snack.show} autoHideDuration={4000} onClose={handleSnackClose}>
-        <Alert onClose={handleSnackClose} severity={snack.severity} sx={{ width: '100%' }}>
-          {snack.message}
-        </Alert>
-      </Snackbar>
+      <Notification 
+        show={notif.show} 
+        severity={notif.severity} 
+        onClose={handleNotifClose}
+      >
+        {notif.message}
+      </Notification>
 
       <PageTitle title="Listagem de métodos de pagamento"  />
 
