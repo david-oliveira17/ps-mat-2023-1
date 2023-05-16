@@ -5,13 +5,13 @@ const PaymentMethod = Joi.object({
         .min(2)
         .max(30)
         .required()
-        .error(new Error('A descrição é obrigatória (entre 2 e 30 caracteres)')),
+        .messages({'*':'A descrição é obrigatória (entre 2 e 30 caracteres)'}),
 
     operator_fee: Joi.number()
         .min(0)
         .max(100)
         .required()
-        .error(new Error('A taxa de operação deve ser informada (entre 0 e 100 caracteres)')),
+        .messages({'*':'A taxa de operação deve ser informada (entre 0 e 100)'}),
 })
 
 export default PaymentMethod
