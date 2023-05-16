@@ -33,7 +33,7 @@ export default function Login() {
 
       const result = await myfetch.post('/users/login', { email, password })
 
-      window.localStorage.setItem('token', result.token)
+      window.localStorage.setItem('token', result?.token)
 
       // Exibe o snackbar de sucesso
       setNotif({
