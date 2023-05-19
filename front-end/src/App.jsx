@@ -16,6 +16,8 @@ import OrderStatusList from './pages/order_status/OrderStatusList'
 import OrderStatusForm from './pages/order_status/OrderStatusForm'
 import TagList from './pages/tag/TagList'
 import TagForm from './pages/tag/TagForm'
+import UserList from './pages/user/UserList'
+import UserForm from './pages/user/UserForm'
 
 function AuthGuard({children}) {
   // Estaremos autenticados se tivermos um token gravado no localStorage
@@ -68,6 +70,12 @@ function App() {
 
           <Route path="/tag/new" element={ 
           <AuthGuard> <TagForm /> </AuthGuard> } />
+
+          <Route path="/user" element={ 
+          <AuthGuard> <UserList /> </AuthGuard> } />
+
+          <Route path="/user/new" element={ 
+          <AuthGuard> <UserForm /> </AuthGuard> } />
 
         </Routes>
       </Box>
