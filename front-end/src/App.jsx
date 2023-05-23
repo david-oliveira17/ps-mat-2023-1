@@ -77,6 +77,9 @@ function App() {
           <Route path="/user/new" element={ 
           <AuthGuard> <UserForm /> </AuthGuard> } />
 
+          <Route path="/payment_method/:id" element={ 
+          <AuthGuard> <PaymentMethodForm /> </AuthGuard> } />
+
         </Routes>
       </Box>
     </BrowserRouter>

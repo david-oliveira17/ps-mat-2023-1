@@ -12,6 +12,6 @@ const PaymentMethod = Joi.object({
         .max(100)
         .required()
         .messages({'*':'A taxa de operação deve ser informada (entre 0 e 100)'}),
-})
+}).options({allowUnknown: true})
 
 export default PaymentMethod
