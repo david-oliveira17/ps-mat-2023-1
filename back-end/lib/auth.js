@@ -3,9 +3,8 @@ const jwt = require('jsonwebtoken')
 module.exports = (req, res, next) => {
 
     // Gambiarra
-
-    next()
-    return
+    //next()
+    //return
 
     
 
@@ -21,13 +20,22 @@ module.exports = (req, res, next) => {
     }
 
     //É necessário ter o token para continuar
-    const bearerHeader = req.headers['authorization']
+    //const bearerHeader = req.headers['authorization']
     //O token não foi passado -> 403
-    if(!bearerHeader) return res.status(403).end()
+    //if(!bearerHeader) return res.status(403).end()
+
+
 
     //Extrai o token de dentro do cabeçalho "authorization"
-    const temp = bearerHeader.split(' ')
-    const token = temp[1]
+    //const temp = bearerHeader.split(' ')
+    //const token = temp[1]
+
+    //Verifica se o token foi enviado por meio de cookie
+    const token = req.cookies['AUTH']
+    console.log({token})
+
+    //Se não houver token HTTP 403
+    if(!token) return res.status(403).end()
 
     //Validando o token
     jwt.verify(token, process.env.TOKEN_SECRET, (error, decoded) => {

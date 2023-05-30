@@ -9,8 +9,7 @@ import Notification from '../components/ui/Notification'
 import myfetch from '../utils/myfetch'
 import PageTitle from '../components/ui/PageTitle'
 
-export default function Login() {
-
+export default function Login({ onLoginLogout }) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
@@ -41,6 +40,8 @@ export default function Login() {
         message: 'Autenticação realizada com sucesso!',
         severity: 'success'
       })
+
+      onLoginLogout(true)
 
     }
     catch(error) {
@@ -78,8 +79,8 @@ export default function Login() {
       </Backdrop>
 
       <Notification 
-        show={notif.show} 
-        severity={notif.severity} 
+        show={notif.show}
+        severity={notif.severity}
         onClose={handleNotifClose}
       >
         {notif.message}
