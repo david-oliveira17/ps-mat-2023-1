@@ -36,7 +36,7 @@ export default function HeaderBar({ isLoggedIn, onLoginLogout }) {
         console.error(error)
       }
       finally {
-        setState({ ...state, showWaiting: true })
+        setState({ ...state, showWaiting: false, showDialog: false })
       }
     }
     else setState({ ...state, showDialog: false })
