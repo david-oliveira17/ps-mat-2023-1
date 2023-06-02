@@ -28,6 +28,6 @@ const User = Joi.object({
         .max(200)
         .required()
         .messages({'*':'A senha é obrigatória (Mínimo de 6 caracteres)'}),
-})
+}).options({allowUnknown: true})
 
 export default User

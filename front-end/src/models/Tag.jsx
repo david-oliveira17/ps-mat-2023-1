@@ -17,6 +17,6 @@ const Tag = Joi.object({
       .max(1)
       .required()
       .messages({'*':'O tipo é obrigatório'}),
-})
+}).options({allowUnknown: true})
 
 export default Tag

@@ -12,6 +12,6 @@ const Channel = Joi.object({
         .max(100)
         .required()
         .messages({'*':'A taxa de comissão deve ser informada (entre 0 e 100)'}),
-})
+}).options({allowUnknown: true})
 
 export default Channel

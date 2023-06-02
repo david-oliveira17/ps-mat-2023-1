@@ -7,7 +7,7 @@ import myfetch from '../../utils/myfetch'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import ShipmentPriority from '../../models/ShipmentPriority'
 import getValidationMessages from '../../utils/getValidationMessages'
 
@@ -15,6 +15,7 @@ export default function ShipmentPriorityForm() {
   const API_PATH = '/shipment_priorities'
 
   const navigate = useNavigate()
+  const params = useParams()
 
   const [state, setState] = React.useState({
     shipmentPriority: {
@@ -48,6 +49,37 @@ export default function ShipmentPriorityForm() {
     sendData()
   }
 
+  React.useEffect(() => {
+    //Se houver parâmetro id na rota, devemos carregar um registro existente para edição
+    if(params.id) fetchData()
+  }, [])
+
+  async function fetchData() {
+    setState({...state, showWaiting: true, errors:{}})
+    try {
+      const result = await myfetch.get(`${API_PATH}/${params.id}`)
+      setState({
+        ...state,
+        shipmentPriority: result,
+        showWaiting: false
+      })
+    }
+    catch(error){
+      console.error(error)
+      setState({
+        ...state, 
+        showWaiting: false,
+        errors: errorMessages,
+        notif: {
+          severity: 'error',
+          show: true,
+          message: 'ERRO: ' + error.message
+        }
+      })
+    }
+  }
+
+
   async function sendData() {
     setState({...state, showWaiting: true, errors: {}})
     try {
@@ -55,8 +87,12 @@ export default function ShipmentPriorityForm() {
       //Chama a validação da biblioteca Joi
       await ShipmentPriority.validateAsync(shipmentPriority)
 
-      await myfetch.post(API_PATH, shipmentPriority)
-      // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
+      //Registro ja existe: chama PUT pra atualizar
+      if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, shipmentPriority)
+
+      //Registro nao existe, chama POST para criar
+      else await myfetch.post(API_PATH, shipmentPriority)
+
       setState({
         ...state, 
         showWaiting: false,
@@ -113,7 +149,7 @@ export default function ShipmentPriorityForm() {
         {notif.message}
       </Notification>
       
-      <PageTitle title="Cadastrar nova prioridade de envio" />
+      <PageTitle title={params.id ? "Editar prioridade de envio" : "Cadastrar nova prioridade de envio"} />
 
       <form onSubmit={handleFormSubmit}>
         <TextField 

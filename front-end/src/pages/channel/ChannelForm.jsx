@@ -7,7 +7,7 @@ import myfetch from '../../utils/myfetch'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Channel from '../../models/Channel'
 import getValidationMessages from '../../utils/getValidationMessages'
 
@@ -15,6 +15,7 @@ export default function ChannelForm() {
   const API_PATH = '/channels'
 
   const navigate = useNavigate()
+  const params = useParams()
 
   const [state, setState] = React.useState({
     channel: {
@@ -49,6 +50,37 @@ export default function ChannelForm() {
     sendData()
   }
 
+  React.useEffect(() => {
+    //Se houver parâmetro id na rota, devemos carregar um registro existente para edição
+    if(params.id) fetchData()
+  }, [])
+
+  async function fetchData() {
+    setState({...state, showWaiting: true, errors:{}})
+    try {
+      const result = await myfetch.get(`${API_PATH}/${params.id}`)
+      setState({
+        ...state,
+        channel: result,
+        showWaiting: false
+      })
+    }
+    catch(error){
+      console.error(error)
+      setState({
+        ...state, 
+        showWaiting: false,
+        errors: errorMessages,
+        notif: {
+          severity: 'error',
+          show: true,
+          message: 'ERRO: ' + error.message
+        }
+      })
+    }
+  }
+
+
   async function sendData() {
     setState({...state, showWaiting: true, errors: {}})
     try {
@@ -56,8 +88,12 @@ export default function ChannelForm() {
       //Chama a validação da biblioteca Joi
       await Channel.validateAsync(channel)
 
-      await myfetch.post(API_PATH, channel)
-      // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
+      //Registro ja existe: chama PUT pra atualizar
+      if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, channel)
+
+      //Registro nao existe, chama POST para criar
+      else await myfetch.post(API_PATH, channel)
+
       setState({
         ...state, 
         showWaiting: false,
@@ -114,7 +150,7 @@ export default function ChannelForm() {
         {notif.message}
       </Notification>
       
-      <PageTitle title="Cadastrar novo canal de venda" />
+      <PageTitle title={params.id ? "Editar canal de venda" : "Cadastrar novo canal de venda"} />
 
       <form onSubmit={handleFormSubmit}>
         <TextField 

@@ -7,7 +7,7 @@ import myfetch from '../../utils/myfetch'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Tag from '../../models/Tag'
 import getValidationMessages from '../../utils/getValidationMessages'
 
@@ -15,6 +15,7 @@ export default function TagForm() {
   const API_PATH = '/tags'
 
   const navigate = useNavigate()
+  const params = useParams()
 
   const [state, setState] = React.useState({
     tag: {
@@ -50,6 +51,37 @@ export default function TagForm() {
     sendData()
   }
 
+  React.useEffect(() => {
+    //Se houver parâmetro id na rota, devemos carregar um registro existente para edição
+    if(params.id) fetchData()
+  }, [])
+
+  async function fetchData() {
+    setState({...state, showWaiting: true, errors:{}})
+    try {
+      const result = await myfetch.get(`${API_PATH}/${params.id}`)
+      setState({
+        ...state,
+        tag: result,
+        showWaiting: false
+      })
+    }
+    catch(error){
+      console.error(error)
+      setState({
+        ...state, 
+        showWaiting: false,
+        errors: errorMessages,
+        notif: {
+          severity: 'error',
+          show: true,
+          message: 'ERRO: ' + error.message
+        }
+      })
+    }
+  }
+
+
   async function sendData() {
     setState({...state, showWaiting: true, errors: {}})
     try {
@@ -57,8 +89,12 @@ export default function TagForm() {
       //Chama a validação da biblioteca Joi
       await Tag.validateAsync(tag)
 
-      await myfetch.post(API_PATH, tag)
-      // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
+      //Registro ja existe: chama PUT pra atualizar
+      if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, tag)
+
+      //Registro nao existe, chama POST para criar
+      else await myfetch.post(API_PATH, tag)
+
       setState({
         ...state, 
         showWaiting: false,
@@ -115,7 +151,7 @@ export default function TagForm() {
         {notif.message}
       </Notification>
       
-      <PageTitle title="Cadastrar nova tag" />
+      <PageTitle title={params.id ? "Editar tag" : "Cadastrar nova tag"} />
 
       <form onSubmit={handleFormSubmit}>
         <TextField 

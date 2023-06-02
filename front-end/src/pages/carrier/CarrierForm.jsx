@@ -7,7 +7,7 @@ import myfetch from '../../utils/myfetch'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Carrier from '../../models/Carrier'
 import getValidationMessages from '../../utils/getValidationMessages'
 
@@ -15,6 +15,7 @@ export default function CarrierForm() {
   const API_PATH = '/carriers'
 
   const navigate = useNavigate()
+  const params = useParams()
 
   const [state, setState] = React.useState({
     carrier: {
@@ -48,6 +49,37 @@ export default function CarrierForm() {
     sendData()
   }
 
+  React.useEffect(() => {
+    //Se houver parâmetro id na rota, devemos carregar um registro existente para edição
+    if(params.id) fetchData()
+  }, [])
+
+  async function fetchData() {
+    setState({...state, showWaiting: true, errors:{}})
+    try {
+      const result = await myfetch.get(`${API_PATH}/${params.id}`)
+      setState({
+        ...state,
+        carrier: result,
+        showWaiting: false
+      })
+    }
+    catch(error){
+      console.error(error)
+      setState({
+        ...state, 
+        showWaiting: false,
+        errors: errorMessages,
+        notif: {
+          severity: 'error',
+          show: true,
+          message: 'ERRO: ' + error.message
+        }
+      })
+    }
+  }
+
+
   async function sendData() {
     setState({...state, showWaiting: true, errors: {}})
     try {
@@ -55,8 +87,12 @@ export default function CarrierForm() {
       //Chama a validação da biblioteca Joi
       await Carrier.validateAsync(carrier)
 
-      await myfetch.post(API_PATH, carrier)
-      // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
+      //Registro ja existe: chama PUT pra atualizar
+      if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, carrier)
+
+      //Registro nao existe, chama POST para criar
+      else await myfetch.post(API_PATH, carrier)
+
       setState({
         ...state, 
         showWaiting: false,
@@ -113,7 +149,7 @@ export default function CarrierForm() {
         {notif.message}
       </Notification>
       
-      <PageTitle title="Cadastrar novo canal de entrega" />
+      <PageTitle title={params.id ? "Editar canal de entrega" : "Cadastrar novo canal de entrega"} />
 
       <form onSubmit={handleFormSubmit}>
         <TextField 

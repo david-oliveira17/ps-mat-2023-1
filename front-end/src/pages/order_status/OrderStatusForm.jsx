@@ -7,7 +7,7 @@ import myfetch from '../../utils/myfetch'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 import Notification from '../../components/ui/Notification'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import OrderStatus from '../../models/OrderStatus'
 import getValidationMessages from '../../utils/getValidationMessages'
 
@@ -15,6 +15,7 @@ export default function OrderStatusForm() {
   const API_PATH = '/order_statuses'
 
   const navigate = useNavigate()
+  const params = useParams()
 
   const [state, setState] = React.useState({
     order_status: {
@@ -49,6 +50,37 @@ export default function OrderStatusForm() {
     sendData()
   }
 
+  React.useEffect(() => {
+    //Se houver parâmetro id na rota, devemos carregar um registro existente para edição
+    if(params.id) fetchData()
+  }, [])
+
+  async function fetchData() {
+    setState({...state, showWaiting: true, errors:{}})
+    try {
+      const result = await myfetch.get(`${API_PATH}/${params.id}`)
+      setState({
+        ...state,
+        orderStatus: result,
+        showWaiting: false
+      })
+    }
+    catch(error){
+      console.error(error)
+      setState({
+        ...state, 
+        showWaiting: false,
+        errors: errorMessages,
+        notif: {
+          severity: 'error',
+          show: true,
+          message: 'ERRO: ' + error.message
+        }
+      })
+    }
+  }
+
+
   async function sendData() {
     setState({...state, showWaiting: true, errors: {}})
     try {
@@ -56,8 +88,12 @@ export default function OrderStatusForm() {
       //Chama a validação da biblioteca Joi
       await OrderStatus.validateAsync(order_status)
 
-      await myfetch.post(API_PATH, order_status)
-      // DAR FEEDBACK POSITIVO E VOLTAR PARA A LISTAGEM
+      //Registro ja existe: chama PUT pra atualizar
+      if(params.id) await myfetch.put(`${API_PATH}/${params.id}`, order_status)
+
+      //Registro nao existe, chama POST para criar
+      else await myfetch.post(API_PATH, order_status)
+
       setState({
         ...state, 
         showWaiting: false,
@@ -114,7 +150,7 @@ export default function OrderStatusForm() {
         {notif.message}
       </Notification>
       
-      <PageTitle title="Cadastrar novo status de pedido" />
+      <PageTitle title={params.id ? "Editar status de pedido" : "Cadastrar novo status de pedido"} />
 
       <form onSubmit={handleFormSubmit}>
       <TextField 

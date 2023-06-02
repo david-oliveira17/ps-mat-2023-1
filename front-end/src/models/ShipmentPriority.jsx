@@ -7,6 +7,6 @@ const ShipmentPriority = Joi.object({
         .required()
         .messages({'*':'A descrição é obrigatória (entre 2 e 30 caracteres)'}),
 
-})
+}).options({allowUnknown: true})
 
 export default ShipmentPriority

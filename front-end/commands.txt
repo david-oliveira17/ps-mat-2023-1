@@ -50,18 +50,20 @@ instalar data grid
 Implementar listagem e form com validação para as entidades/tabelas:
 (1 parte do trabalho do 2 bim -- entrega por pull request ate 28/05)
 
+em "pages" criar os dois arquivos na pasta da entidade
+criar o arquivo na pasta "models"
+criar a rota em "app.js
+criar o MenuItem em MainMenu.jsx
+
+
+
+
+
+
+
 -channel
 -carrier
 -shipment_priority
 -order_status
 -tag
 -user
-
-
-
-em "pages" criar os dois arquivos na pasta da entidade
-criar o arquivo na pasta "models"
-criar a rota em "app.js
-criar o MenuItem em MainMenu.jsx
-
-parei no model de users
