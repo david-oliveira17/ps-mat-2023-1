@@ -235,9 +235,19 @@ router.post('/login', controller.login)
     "shipment_priority_id": "1",
     "payment_method_id": "1"
 }
+
+
+
+render.com
+
 <<<<<<< HEAD
 
 
 npx sequelize-cli model:generate --name Products --attributes description:string,quantity:decimal,unit:enum,supllier:integer
 =======
 >>>>>>> 1e1c282 ((04/05)Rotina de exclusão)
+
+
+
+Build
+npm run build
