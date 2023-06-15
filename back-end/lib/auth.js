@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
 
     //Verifica se o token foi enviado por meio de cookie
     const token = req.cookies['AUTH']
-    console.log({token})
+    //console.log({token})
 
     //Se não houver token HTTP 403
     if(!token) return res.status(403).end()
@@ -47,11 +47,10 @@ module.exports = (req, res, next) => {
         //logado no parâmetro "decoded". Vamos guardar isso na request para usar depois
         req.authUser = decoded
 
-        console.log({authUser: req.authuser})
+        //console.log({authUser: req.authuser})
 
         next()
     })
 
-    
 
 }
